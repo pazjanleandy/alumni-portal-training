@@ -55,6 +55,7 @@ function Sidebar({ isOpen, toggle }) {
 
   return (
     <div
+      id="app-sidebar"
       onMouseEnter={() => !isOpen && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={`bg-[#585858] text-white h-screen overflow-y-auto transition-all duration-300 flex flex-col
@@ -162,7 +163,7 @@ function Sidebar({ isOpen, toggle }) {
           </Link>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 

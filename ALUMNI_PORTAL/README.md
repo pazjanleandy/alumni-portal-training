@@ -1,16 +1,27 @@
-# React + Vite
+### Training & Learning Page Enhancements
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+NOTE: This README assumes you have already followed the setup and guidelines in Andrei50’s original repository README, as this project is based on a cloned version of that repository.
 
-Currently, two official plugins are available:
+#### Sidebar Integration
+- Added `id="app-sidebar"` to the root div of Sidebar.jsx to allow TrainingLearning.jsx to detect sidebar width (used for responsive filter layout).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+#### New Components
+Added under `src/components/Training_Learning/`:
+- `FiltersPanel.jsx`
+  - Reusable filter layout component
+  - Supports inline and sidebar modes
+  - Configurable via props: variant, showSearch, showClearTop, showClearBottom
+- `SkillFilterDropdown.jsx`
+  - Styled dropdown consistent with existing filter components
 
-## React Compiler
+#### TrainingLearning.jsx Behavior
+- Implements responsive filter layout:
+  - When sidebar is expanded → filters appear inline below search bar
+  - When sidebar is collapsed → filters appear in a left-side panel
+- Uses ResizeObserver on `#app-sidebar` (no Layout.jsx changes required)
+- Search bar remains centered regardless of sidebar state
+- All changes are isolated to the Training & Learning page only
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+#### Architecture Note
+- No modifications were made to Layout.jsx behavior
+- No global layout side effects introduced

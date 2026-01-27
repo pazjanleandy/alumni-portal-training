@@ -1,6 +1,6 @@
 ### Training & Learning Page Enhancements
 
-NOTE: This README assumes you have already followed the setup and guidelines in Andrei50’s original repository README, as this project is based on a cloned version of that repository.
+NOTE: This README assumes you have already followed the setup and guidelines in Andrei-code05’s original repository README, as this project is based on a cloned version of that repository.
 
 #### Sidebar Integration
 - Added `id="app-sidebar"` to the root div of Sidebar.jsx to allow TrainingLearning.jsx to detect sidebar width (used for responsive filter layout).

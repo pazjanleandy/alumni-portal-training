@@ -30,7 +30,7 @@ const navItems = [
     ],
   },
   { name: 'Directory & Networking', icon: AddressBook, path: '/directory' },
-  { name: 'Career & Job Opportunities', icon: Briefcase, path: '/career' },
+  { name: 'Career & Job Opportunities', icon: Briefcase, path: '/training' },
   { name: 'Training & Learning', icon: BookOpen, path: '/training' },
   { name: 'Achievements & Recognition', icon: Medal, path: '/achievements' },
   { name: 'Events & Community Engagement', icon: CalendarBlank, path: '/events' },

@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import AlumniManagement from './pages/AlumniManagement';
 import ContentManagement from './pages/ContentManagement';
 import AnalyticsAndReport from './pages/AnalyticsAndReport';
+import TrainingLearning from './pages/TrainingLearning';
 import CreateJobPost from './components/content_management/CreateJobPost';
 import ManageJobPost from './components/content_management/ManageJobPost';
 import EditJobPost from './components/content_management/EditJobPost';
@@ -37,7 +38,7 @@ function App() {
 
 
         <Route path="/analytics-and-report" element={<Layout><AnalyticsAndReport /></Layout>} />
-
+        <Route path="/training" element={<Layout><TrainingLearning /></Layout>} />
 
         {/* Add other routes similarly */}
       </Routes>

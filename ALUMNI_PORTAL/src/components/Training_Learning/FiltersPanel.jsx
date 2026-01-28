@@ -1,8 +1,8 @@
 import React from "react";
 
-import SortFilterDropdown from "../content_management/SortFilterDropdown";
-import DeparmentDropdown from "../content_management/DepartmentDropdown";
-import RoleFilterDropdown from "../alumni_management/RoleFilterDropdown";
+import SortFilterDropdown from "./SortFilterDropdown";
+import DeparmentDropdown from "./DepartmentDropdown";
+import RoleFilterDropdown from "./RoleFilterDropdown";
 import SkillFilterDropdown from "./SkillFilterDropdown";
 
 export default function FiltersPanel({

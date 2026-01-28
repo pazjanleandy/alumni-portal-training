@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import FiltersPanel from "../components/Training_Learning/FiltersPanel";
 import SortFilterDropdown from "../components/content_management/SortFilterDropdown";
-import CourseCard from "../components/Training_Learning/CourseCard"; // Adjust path as needed
+import CourseCard from "../components/Training_Learning/CourseCard"; 
 
 const PLATFORMS = [
   {

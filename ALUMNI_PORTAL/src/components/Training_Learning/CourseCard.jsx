@@ -6,7 +6,7 @@ const CourseCard = ({ course }) => {
       href={course.url || '#'} 
       target="_blank" 
       rel="noopener noreferrer"
-      className="block bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col h-full group cursor-pointer border border-gray-100 hover:border-[#DAB619]/30"
+      className=" bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col h-full group cursor-pointer border border-gray-100 hover:border-[#DAB619]/30"
     >
       {/* Image Section - Using Platform Logo */}
       <div className="relative w-full h-48 overflow-hidden bg-gray-50 flex items-center justify-center p-8">

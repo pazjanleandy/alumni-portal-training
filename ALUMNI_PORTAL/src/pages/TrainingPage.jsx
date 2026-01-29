@@ -1,13 +1,19 @@
-import React, { useRef, useState, useEffect, useMemo } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import FiltersPanel from "../components/Training_Learning/FiltersPanel";
 import SortFilterDropdown from "../components/Training_Learning/SortFilterDropdown";
-import CourseCard from "../components/Training_Learning/CourseCard"; 
+import CourseCard from "../components/Training_Learning/CourseCard";
 import RecCourses from "../components/Training_Learning/RecCourses";
 import LearningPaths from "../components/Training_Learning/LearningPaths";
-import { DUMMY_COURSES, PLATFORMS, ITEMS_PER_PAGE } from "../components/Training_Learning/dummyData";
+import {
+  DUMMY_COURSES,
+  PLATFORMS,
+  ITEMS_PER_PAGE,
+} from "../components/Training_Learning/dummyData";
+import { useSidebarLayout } from "../layouts/MainLayout";
 
 function getPageNumbers(currentPage, totalPages) {
-  if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
+  if (totalPages <= 7)
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
 
   const pages = [];
   const left = Math.max(2, currentPage - 1);
@@ -68,7 +74,12 @@ function CourseGridSection({
                 disabled={safePage === 1}
                 onClick={() => goToPage(safePage - 1)}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -81,7 +92,10 @@ function CourseGridSection({
               <div className="flex items-center px-1">
                 {getPageNumbers(safePage, totalPages).map((page, idx) =>
                   page === "..." ? (
-                    <span key={`ellipsis-${idx}`} className="px-4 py-2.5 text-[#7B7B7B] font-bold">
+                    <span
+                      key={`ellipsis-${idx}`}
+                      className="px-4 py-2.5 text-[#7B7B7B] font-bold"
+                    >
                       …
                     </span>
                   ) : (
@@ -105,7 +119,12 @@ function CourseGridSection({
                 disabled={safePage === totalPages}
                 onClick={() => goToPage(safePage + 1)}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -128,7 +147,9 @@ function CourseGridSection({
       ) : (
         <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-300">
           <p className="text-gray-500 text-lg mb-2">No courses found</p>
-          <p className="text-gray-400 text-sm mb-4">Try adjusting your filters</p>
+          <p className="text-gray-400 text-sm mb-4">
+            Try adjusting your filters
+          </p>
           <button
             onClick={handleClearAll}
             className="px-6 py-2 bg-[#DAB619] text-white rounded-lg hover:bg-[#c4a317] transition-colors font-medium"
@@ -141,16 +162,18 @@ function CourseGridSection({
   );
 }
 
-export default function TrainingLearning() {
+export default function TrainingPage() {
+  // ✅ IMPORTANT: pinned state controls layout (NOT hover width)
+  const { sidebarPinnedOpen } = useSidebarLayout();
+  const isSidebarCollapsed = !sidebarPinnedOpen;
+
   const platformScrollerRef = useRef(null);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [departmentFilter, setDepartmentFilter] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [skillFilter, setSkillFilter] = useState("");
-
   const [currentPage, setCurrentPage] = useState(1);
 
   const setSearchQueryAndReset = (value) => {
@@ -175,7 +198,10 @@ export default function TrainingLearning() {
   };
 
   const scrollPlatforms = (dir) => {
-    platformScrollerRef.current?.scrollBy({ left: 320 * dir, behavior: "smooth" });
+    platformScrollerRef.current?.scrollBy({
+      left: 320 * dir,
+      behavior: "smooth",
+    });
   };
 
   const handleClearAll = () => {
@@ -198,7 +224,8 @@ export default function TrainingLearning() {
         course.category.toLowerCase().includes(searchLower) ||
         course.instructor.name.toLowerCase().includes(searchLower);
 
-      const matchesDepartment = !departmentFilter || course.department === departmentFilter;
+      const matchesDepartment =
+        !departmentFilter || course.department === departmentFilter;
       const matchesRole = !roleFilter || course.role === roleFilter;
       const matchesSkill = !skillFilter || course.skill === skillFilter;
 
@@ -216,7 +243,10 @@ export default function TrainingLearning() {
     return sorted;
   }, [searchQuery, departmentFilter, roleFilter, skillFilter, sortBy]);
 
-  const totalPages = Math.max(1, Math.ceil(filteredCourses.length / ITEMS_PER_PAGE));
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredCourses.length / ITEMS_PER_PAGE)
+  );
   const safePage = Math.min(currentPage, totalPages);
 
   const paginatedCourses = useMemo(() => {
@@ -224,69 +254,53 @@ export default function TrainingLearning() {
     return filteredCourses.slice(start, start + ITEMS_PER_PAGE);
   }, [filteredCourses, safePage]);
 
-  const filteredPlatforms = PLATFORMS;  
-
-  useEffect(() => {
-    const sidebar =
-      document.getElementById("app-sidebar") || document.querySelector('[data-sidebar="true"]');
-
-    if (!sidebar) return;
-
-    const update = () => {
-      setIsSidebarCollapsed(sidebar.getBoundingClientRect().width <= 120);
-    };
-
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(sidebar);
-
-    return () => ro.disconnect();
-  }, []);
+  const filteredPlatforms = PLATFORMS;
+  const recommendedCourses = useMemo(() => DUMMY_COURSES.slice(0, 6), []);
 
   const goToPage = (page) => {
     const next = Math.min(Math.max(1, page), totalPages);
     setCurrentPage(next);
   };
 
-  const recommendedCourses = useMemo(() => DUMMY_COURSES.slice(0, 6), []);
-
   return (
     <div className="p-6">
-      {/* Platforms Carousel */}
-      <section className="rounded-2xl px-16 py-10 bg-[#EEE6C8]">
-        <h2 className="text-lg font-semibold mb-6">Learning Platforms</h2>
+      {/* Platforms Carousel (TRUE FULL BLEED) */}
+      <section className="relative left-1/2 -translate-x-1/2 w-screen bg-[#EEE6C8]">
+        <div className="max-w-6xl mx-auto px-6 py-10">
+          <h2 className="text-lg font-semibold mb-6">Learning Platforms</h2>
 
-        <div className="relative">
-          <button
-            onClick={() => scrollPlatforms(-1)}
-            className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full border bg-white grid place-items-center hover:bg-gray-50 transition-colors"
-          >
-            ‹
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => scrollPlatforms(-1)}
+              className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full border bg-white grid place-items-center hover:bg-gray-50 transition-colors"
+            >
+              ‹
+            </button>
 
-          <button
-            onClick={() => scrollPlatforms(1)}
-            className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full border bg-white grid place-items-center hover:bg-gray-50 transition-colors"
-          >
-            ›
-          </button>
+            <button
+              onClick={() => scrollPlatforms(1)}
+              className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full border bg-white grid place-items-center hover:bg-gray-50 transition-colors"
+            >
+              ›
+            </button>
 
-          <div
-            ref={platformScrollerRef}
-            className="flex justify-center gap-8 overflow-x-auto px-6 py-8"
-          >
-            {filteredPlatforms.map((p) => (
-              <a
-                key={p.name}
-                href={p.href}
-                target="_blank"
-                rel="noreferrer"
-                className="w-[240px] h-[120px] bg-white rounded-2xl border flex items-center justify-center gap-3 shadow-md hover:scale-105 transition"
-              >
-                <img src={p.logo} className="h-10" alt={p.name} />
-                <span className="font-medium">{p.name}</span>
-              </a>
-            ))}
+            <div
+              ref={platformScrollerRef}
+              className="flex justify-start gap-8 overflow-x-auto px-6 py-8 scroll-smooth"
+            >
+              {filteredPlatforms.map((p) => (
+                <a
+                  key={p.name}
+                  href={p.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="shrink-0 w-[240px] h-[120px] bg-white rounded-2xl border flex items-center justify-center gap-3 shadow-md hover:scale-105 transition"
+                >
+                  <img src={p.logo} className="h-10" alt={p.name} />
+                  <span className="font-medium">{p.name}</span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -311,7 +325,7 @@ export default function TrainingLearning() {
         </div>
       </div>
 
-      {/* Filters + Grid */}
+      {/* ✅ Filters LEFT when sidebar is pinned collapsed */}
       {isSidebarCollapsed ? (
         <>
           <div className="mt-6 grid grid-cols-12 gap-6">
@@ -342,7 +356,11 @@ export default function TrainingLearning() {
             </main>
           </div>
 
-          <RecCourses title="Recommended for you" courses={recommendedCourses} fullBleed />
+          <RecCourses
+            title="Recommended for you"
+            courses={recommendedCourses}
+            fullBleed
+          />
 
           <LearningPaths defaultOpen={null} />
         </>

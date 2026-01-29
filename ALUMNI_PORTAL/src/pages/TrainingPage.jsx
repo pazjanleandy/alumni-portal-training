@@ -344,7 +344,6 @@ export default function TrainingLearning() {
 
           <RecCourses title="Recommended for you" courses={recommendedCourses} fullBleed />
 
-          {/* ✅ ADD LEARNING PATHS UNDER CAROUSEL */}
           <LearningPaths defaultOpen={null} />
         </>
       ) : (
@@ -376,7 +375,6 @@ export default function TrainingLearning() {
 
           <RecCourses title="Recommended for you" courses={recommendedCourses} fullBleed />
 
-          {/* ✅ ADD LEARNING PATHS UNDER CAROUSEL */}
           <LearningPaths defaultOpen={null} />
         </div>
       )}

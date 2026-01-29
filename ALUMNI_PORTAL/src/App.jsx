@@ -5,6 +5,7 @@ import DashboardPage from './pages/DashboardPage'
 import DirectoryPage from './pages/DirectoryPage'
 import CareerPage from './pages/CareerPage'
 import TrainingPage from './pages/TrainingPage'
+import CertificationsPage from './pages/CertificationsPage'
 import AchievementsPage from './pages/AchievementsPage'
 import EventsPage from './pages/EventsPage'
 import AnnouncementsPage from './pages/AnnouncementsPage'
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/directory" element={<DirectoryPage />} />
         <Route path="/career" element={<CareerPage />} />
         <Route path="/training" element={<TrainingPage />} />
+        <Route path="/training/certifications" element={<CertificationsPage />} />
         <Route path="/achievements" element={<AchievementsPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/announcements" element={<AnnouncementsPage />} />

@@ -16,7 +16,16 @@ export const NAV_ITEMS = [
   { label: 'Dashboard', path: '/dashboard', icon: <FiHome />, section: 'main' },
   { label: 'Directory & Networking', path: '/directory', icon: <FiUsers />, section: 'main' },
   { label: 'Career & Job Opportunities', path: '/career', icon: <FiTarget />, section: 'main' },
-  { label: 'Training & Learnings', path: '/training', icon: <FiBookOpen />, section: 'main' },
+  {
+     label: 'Training & Learning', 
+     path: '/training', 
+     icon: <FiBookOpen />, 
+     section: 'main',
+     children: [
+       { label: 'Training & Learning Paths', path: '/training' },
+       { label: 'Certifications', path: '/training/certifications' },
+     ]
+    },
   { label: 'Achievements & Recognition', path: '/achievements', icon: <FiAward />, section: 'main' },
   { label: 'Events & Community Engagement', path: '/events', icon: <FiCalendar />, section: 'main' },
   { label: 'Announcements', path: '/announcements', icon: <FiBell />, section: 'main' },

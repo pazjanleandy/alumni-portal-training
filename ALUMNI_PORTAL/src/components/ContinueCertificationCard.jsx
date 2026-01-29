@@ -5,7 +5,12 @@ export default function ContinueCertificationCard({ certification }) {
   const progressPercentage = (certification.progress / certification.totalLessons) * 100
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+    <a 
+      href={certification.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+    >
       <div className="relative">
         <img
           src={certification.image}
@@ -46,6 +51,6 @@ export default function ContinueCertificationCard({ certification }) {
           </div>
         </div>
       </div>
-    </div>
+    </a>
   )
 }

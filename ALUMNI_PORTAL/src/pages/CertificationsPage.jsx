@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { FiSearch, FiChevronLeft, FiChevronRight, FiChevronDown, FiStar, FiUpload } from 'react-icons/fi'
 import ContinueCertificationCard from '../components/ContinueCertificationCard'
 import CertificateCard from '../components/CertificateCard'
+import ViewHistoryCertification from '../components/Training_Learning/ViewHistoryCertification'
 import { CONTINUE_CERTIFICATIONS, MY_CERTIFICATES } from '../components/Training_Learning/CertificationDummyData'
 
 export default function CertificationsPage() {
@@ -9,6 +10,7 @@ export default function CertificationsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('newest')
   const [currentPage, setCurrentPage] = useState(1)
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false)
   const itemsPerPage = 6
 
   const filteredCertificates = useMemo(() => {
@@ -22,8 +24,17 @@ export default function CertificationsPage() {
       )
     }
 
+    // Apply sorting
+    if (sortBy === 'newest') {
+      filtered = [...filtered].sort((a, b) => new Date(b.issueDate) - new Date(a.issueDate))
+    } else if (sortBy === 'oldest') {
+      filtered = [...filtered].sort((a, b) => new Date(a.issueDate) - new Date(b.issueDate))
+    } else if (sortBy === 'name') {
+      filtered = [...filtered].sort((a, b) => a.title.localeCompare(b.title))
+    }
+
     return filtered
-  }, [searchQuery])
+  }, [searchQuery, sortBy])
 
   const totalPages = Math.ceil(filteredCertificates.length / itemsPerPage)
   const startIndex = (currentPage - 1) * itemsPerPage
@@ -33,14 +44,23 @@ export default function CertificationsPage() {
   )
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
+      {/* History Modal */}
+      <ViewHistoryCertification 
+        isOpen={isHistoryOpen} 
+        onClose={() => setIsHistoryOpen(false)} 
+      />
+
       {/* Continue Certification Section */}
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-800">Continue Certification</h2>
-          <a href="#" className="text-yellow-500 hover:text-yellow-600 text-sm font-semibold">
+          <button 
+            onClick={() => setIsHistoryOpen(true)}
+            className="text-yellow-500 hover:text-yellow-600 text-sm font-semibold transition-colors"
+          >
             View History
-          </a>
+          </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -123,7 +143,7 @@ export default function CertificationsPage() {
 
         {/* Certificate Status */}
         <div className="text-sm text-gray-600 mb-6 font-medium">
-          Showing {startIndex + 1} out of {filteredCertificates.length}
+          Showing {filteredCertificates.length > 0 ? startIndex + 1 : 0} - {Math.min(startIndex + itemsPerPage, filteredCertificates.length)} out of {filteredCertificates.length}
         </div>
 
         {/* Certificates Grid */}
@@ -139,7 +159,7 @@ export default function CertificationsPage() {
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className="p-2 rounded-lg border border-gray-300 text-gray-600 disabled:opacity-50 hover:bg-gray-50"
+              className="p-2 rounded-lg border border-gray-300 text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-colors"
             >
               <FiChevronLeft size={20} />
             </button>
@@ -161,7 +181,7 @@ export default function CertificationsPage() {
             <button
               onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
-              className="p-2 rounded-lg border border-gray-300 text-gray-600 disabled:opacity-50 hover:bg-gray-50"
+              className="p-2 rounded-lg border border-gray-300 text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-colors"
             >
               <FiChevronRight size={20} />
             </button>
